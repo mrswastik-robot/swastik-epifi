@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  password    String
+  createdAt   DateTime     @default(now())
+  notes       Note[]
+  sharedNotes NoteShare[]
+}
+
+model Note {
+  id        String        @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  owner     User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  shares    NoteShare[]
+  history   NoteHistory[]
+}
+
+model NoteShare {
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@id([noteId, userId])
+}
+
+model NoteHistory {
+  id      String   @id @default(uuid())
+  note    Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId  String
+  title   String
+  content String
+  savedAt DateTime @default(now())
+}
