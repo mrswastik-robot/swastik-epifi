@@ -11,14 +11,14 @@ app.get("/", (_req: Request, res: Response) => {
   res.json({ status: "ok" });
 });
 
-// ── Routes (mounted incrementally) ──────────────────────────────────────────
-// import authRouter from "./routes/auth";
-// import notesRouter from "./routes/notes";
-// import metaRouter from "./routes/meta";
+// ── Routes ───────────────────────────────────────────────────────────────────
+import authRouter from "./routes/auth";
+import notesRouter from "./routes/notes";
+import metaRouter from "./routes/meta";
 
-// app.use("/", authRouter);
-// app.use("/notes", notesRouter);
-// app.use("/", metaRouter);
+app.use("/", authRouter);
+app.use("/notes", notesRouter);
+app.use("/", metaRouter);
 
 // ── Global error handler ─────────────────────────────────────────────────────
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
