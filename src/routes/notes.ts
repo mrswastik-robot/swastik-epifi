@@ -124,7 +124,7 @@ router.get("/search", async (req: Request, res: Response): Promise<void> => {
 // ── GET /notes/:id ───────────────────────────────────────────────────────────
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   const { userId } = req as AuthRequest;
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   const note = await prisma.note.findFirst({
     where: {
@@ -177,7 +177,7 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
 // Only the owner can update a note. A history snapshot is saved before update.
 router.put("/:id", async (req: Request, res: Response): Promise<void> => {
   const { userId } = req as AuthRequest;
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   const parsed = noteSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -224,7 +224,7 @@ router.put("/:id", async (req: Request, res: Response): Promise<void> => {
 // Only the owner can delete a note.
 router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
   const { userId } = req as AuthRequest;
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   const existing = await prisma.note.findFirst({
     where: { id, ownerId: userId },
@@ -242,7 +242,7 @@ router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
 // ── POST /notes/:id/share ────────────────────────────────────────────────────
 router.post("/:id/share", async (req: Request, res: Response): Promise<void> => {
   const { userId } = req as AuthRequest;
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   const parsed = shareSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -285,7 +285,7 @@ router.post("/:id/share", async (req: Request, res: Response): Promise<void> => 
 // Returns all past snapshots for a note (owner only).
 router.get("/:id/history", async (req: Request, res: Response): Promise<void> => {
   const { userId } = req as AuthRequest;
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   const note = await prisma.note.findFirst({ where: { id, ownerId: userId } });
   if (!note) {
@@ -308,7 +308,8 @@ router.post(
   "/:id/history/:historyId/restore",
   async (req: Request, res: Response): Promise<void> => {
     const { userId } = req as AuthRequest;
-    const { id, historyId } = req.params;
+    const id = req.params.id as string;
+    const historyId = req.params.historyId as string;
 
     const note = await prisma.note.findFirst({ where: { id, ownerId: userId } });
     if (!note) {
