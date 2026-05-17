@@ -1,0 +1,29 @@
+meta {
+  name: Share Note
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{base_url}}/notes/:id/share
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: REPLACE_WITH_NOTE_ID
+}
+
+body:json {
+  {
+    "share_with_email": "bob@example.com"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

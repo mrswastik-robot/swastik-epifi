@@ -1,0 +1,30 @@
+meta {
+  name: Update Note
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{base_url}}/notes/:id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: REPLACE_WITH_NOTE_ID
+}
+
+body:json {
+  {
+    "title": "Updated Title",
+    "content": "Updated content after revision."
+  }
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,16 @@
+meta {
+  name: About
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{base_url}}/about
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: isDefined
+}

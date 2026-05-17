@@ -1,0 +1,23 @@
+meta {
+  name: Delete Note
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{base_url}}/notes/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: REPLACE_WITH_NOTE_ID
+}
+
+assert {
+  res.status: eq 204
+}

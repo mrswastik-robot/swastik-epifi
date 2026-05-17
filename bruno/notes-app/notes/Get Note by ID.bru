@@ -1,0 +1,23 @@
+meta {
+  name: Get Note by ID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/notes/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: REPLACE_WITH_NOTE_ID
+}
+
+assert {
+  res.status: eq 200
+}

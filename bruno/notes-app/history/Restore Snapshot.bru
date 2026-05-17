@@ -1,0 +1,24 @@
+meta {
+  name: Restore Snapshot
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{base_url}}/notes/:id/history/:historyId/restore
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: REPLACE_WITH_NOTE_ID
+  historyId: REPLACE_WITH_HISTORY_ID
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,16 @@
+meta {
+  name: OpenAPI Spec
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{base_url}}/openapi.json
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.openapi: isDefined
+}

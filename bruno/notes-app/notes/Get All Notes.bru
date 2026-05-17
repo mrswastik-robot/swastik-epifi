@@ -1,0 +1,25 @@
+meta {
+  name: Get All Notes
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}/notes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 20
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+}
